@@ -1,0 +1,4 @@
+[submodule "deps/PluginSystem"]
+	path = deps/PluginSystem
+	url = https://github.com/Open-FL/PluginSystem
+	branch = master
