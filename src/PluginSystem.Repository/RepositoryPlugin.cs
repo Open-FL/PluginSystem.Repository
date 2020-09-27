@@ -67,6 +67,10 @@ namespace PluginSystem.Repository
 
         private List<BasePluginPointer> GetOriginData(string origin)
         {
+            if (File.Exists(origin))
+            {
+                return File.ReadAllLines(origin).Select(x => new BasePluginPointer(x.Trim())).ToList();
+            }
             using (WebClient wc = new WebClient())
             {
                 return wc.DownloadString(origin).Split('\n').Select(x => new BasePluginPointer(x.Trim())).ToList();
