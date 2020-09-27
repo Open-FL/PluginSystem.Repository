@@ -30,8 +30,15 @@ namespace PluginSystem.Repository
             }
         }
 
+
+        private void EnsureOriginFileExists()
+        {
+            if (!File.Exists(OriginFile)) File.WriteAllText(OriginFile, "");
+        }
+
         public void AddOrigin(string origin)
         {
+            EnsureOriginFileExists();
             List<string> origins = ListHelper.LoadList(OriginFile).ToList();
             origins.Add(origin);
             ListHelper.SaveList(OriginFile, origins.Distinct());
@@ -39,6 +46,7 @@ namespace PluginSystem.Repository
 
         public void RemoveOrigin(string origin)
         {
+            EnsureOriginFileExists();
             List<string> origins = ListHelper.LoadList(OriginFile).ToList();
             origins.Remove(origin);
             ListHelper.SaveList(OriginFile, origins);
@@ -46,6 +54,7 @@ namespace PluginSystem.Repository
 
         public List<Repository> GetPlugins()
         {
+            EnsureOriginFileExists();
             string[] origins = ListHelper.LoadList(OriginFile);
             List<Repository> repos = new List<Repository>();
             foreach (string origin in origins)
@@ -67,9 +76,6 @@ namespace PluginSystem.Repository
         public override void OnLoad(PluginAssemblyPointer ptr)
         {
             base.OnLoad(ptr);
-
-
-            if (!File.Exists(OriginFile)) File.WriteAllText(OriginFile, "");
 
             PluginManager.LoadPlugins(this);
         }
