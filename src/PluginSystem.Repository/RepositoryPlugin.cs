@@ -69,11 +69,11 @@ namespace PluginSystem.Repository
         {
             if (File.Exists(origin))
             {
-                return File.ReadAllLines(origin).Select(x => new BasePluginPointer(x.Trim())).ToList();
+                return File.ReadAllLines(origin).Select(x => new BasePluginPointer(File.ReadAllText(x.Trim()))).ToList();
             }
             using (WebClient wc = new WebClient())
             {
-                return wc.DownloadString(origin).Split('\n').Select(x => new BasePluginPointer(x.Trim())).ToList();
+                return wc.DownloadString(origin).Split('\n').Select(x => new BasePluginPointer(wc.DownloadString(x.Trim()))).ToList();
             }
         }
 
