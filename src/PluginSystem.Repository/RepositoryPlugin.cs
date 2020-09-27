@@ -65,16 +65,23 @@ namespace PluginSystem.Repository
             return repos;
         }
 
-        private List<BasePluginPointer> GetOriginData(string origin)
+
+        private List<string> ReadList(string uri)
         {
-            if (File.Exists(origin))
+            if (File.Exists(uri))
             {
-                return File.ReadAllLines(origin).Select(x => new BasePluginPointer(File.ReadAllText(x.Trim()))).ToList();
+                return File.ReadAllLines(uri).ToList();
             }
             using (WebClient wc = new WebClient())
             {
-                return wc.DownloadString(origin).Split('\n').Select(x => new BasePluginPointer(wc.DownloadString(x.Trim()))).ToList();
+                return wc.DownloadString(uri).Split('\n').ToList();
             }
+        }
+
+        private List<BasePluginPointer> GetOriginData(string origin)
+        {
+
+            return ReadList(origin).SelectMany(x => ReadList(x.Trim()).Select(y => new BasePluginPointer(y.Trim()))).ToList();
         }
 
         public override void OnLoad(PluginAssemblyPointer ptr)
