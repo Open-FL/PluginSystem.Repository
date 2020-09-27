@@ -14,6 +14,7 @@ namespace PluginSystem.Repository
     public class RepositoryPlugin : APlugin<PluginSystemHost>, IPluginHost
     {
 
+
         public override bool HasIO => true;
 
         public override bool IsMainPlugin => true;
@@ -25,7 +26,6 @@ namespace PluginSystem.Repository
             get
             {
                 string file = Path.Combine(PluginPaths.GetPluginConfigDirectory(PluginAssemblyData), "origins.txt");
-                if (!File.Exists(file)) File.WriteAllText(file, "");
                 return file;
             }
         }
@@ -67,6 +67,9 @@ namespace PluginSystem.Repository
         public override void OnLoad(PluginAssemblyPointer ptr)
         {
             base.OnLoad(ptr);
+
+
+            if (!File.Exists(OriginFile)) File.WriteAllText(OriginFile, "");
 
             PluginManager.LoadPlugins(this);
         }
