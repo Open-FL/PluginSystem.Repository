@@ -20,8 +20,15 @@ namespace PluginSystem.Repository
 
         public override string Name => "repository-plugin";
 
-        public string OriginFile =>
-            Path.Combine(PluginPaths.GetPluginConfigDirectory(PluginAssemblyData), "origins.txt");
+        public string OriginFile
+        {
+            get
+            {
+                string file = Path.Combine(PluginPaths.GetPluginConfigDirectory(PluginAssemblyData), "origins.txt");
+                if (!File.Exists(file)) File.WriteAllText(file, "");
+                return file;
+            }
+        }
 
         public void AddOrigin(string origin)
         {
