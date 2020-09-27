@@ -1,0 +1,5 @@
+name: repository-plugin
+target: .\src\PluginSystem.Repository\bin\Debug\netstandard2.0\PluginSystem.Repository.dll
+output: .\docs\latest\repository-plugin.zip
+origin: https://open-fl.github.io/PluginSystem.Repository/latest/info.txt
+flags: INFO_TO_OUTPUT
