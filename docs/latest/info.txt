@@ -1,1 +1,1 @@
-repository-plugin|PluginSystem.Repository.dll|https://open-fl.github.io/PluginSystem.Repository/latest/info.txt|0.0.1.14|
+repository-plugin|PluginSystem.Repository.dll|https://open-fl.github.io/PluginSystem.Repository/latest/info.txt|0.0.1.18|
