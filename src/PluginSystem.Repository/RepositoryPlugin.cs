@@ -88,6 +88,8 @@ namespace PluginSystem.Repository
         {
             base.OnLoad(ptr);
 
+            EnsureOriginFileExists();
+
             PluginManager.LoadPlugins(this);
         }
 
