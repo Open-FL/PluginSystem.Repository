@@ -14,13 +14,6 @@ namespace PluginSystem.Repository
     public class RepositoryPlugin : APlugin<PluginSystemHost>, IPluginHost
     {
 
-
-        public override bool HasIO => true;
-
-        public override bool IsMainPlugin => true;
-
-        public override string Name => "repository-plugin";
-
         public string OriginFile
         {
             get
