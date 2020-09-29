@@ -23,10 +23,26 @@ namespace PluginSystem.Repository
             }
         }
 
+        public bool IsAllowedPlugin(IPlugin plugin)
+        {
+            return true;
+        }
+
+        public void OnPluginLoad(IPlugin plugin, BasePluginPointer ptr)
+        {
+        }
+
+        public void OnPluginUnload(IPlugin plugin)
+        {
+        }
+
 
         private void EnsureOriginFileExists()
         {
-            if (!File.Exists(OriginFile)) File.WriteAllText(OriginFile, "");
+            if (!File.Exists(OriginFile))
+            {
+                File.WriteAllText(OriginFile, "");
+            }
         }
 
         public void AddOrigin(string origin)
@@ -65,6 +81,7 @@ namespace PluginSystem.Repository
             {
                 return File.ReadAllLines(uri).ToList();
             }
+
             using (WebClient wc = new WebClient())
             {
                 return wc.DownloadString(uri).Split('\n').ToList();
@@ -73,8 +90,8 @@ namespace PluginSystem.Repository
 
         private List<BasePluginPointer> GetOriginData(string origin)
         {
-
-            return ReadList(origin).SelectMany(x => ReadList(x.Trim()).Select(y => new BasePluginPointer(y.Trim()))).ToList();
+            return ReadList(origin).SelectMany(x => ReadList(x.Trim()).Select(y => new BasePluginPointer(y.Trim())))
+                                   .ToList();
         }
 
         public override void OnLoad(PluginAssemblyPointer ptr)
@@ -84,19 +101,6 @@ namespace PluginSystem.Repository
             EnsureOriginFileExists();
 
             PluginManager.LoadPlugins(this);
-        }
-
-        public bool IsAllowedPlugin(IPlugin plugin)
-        {
-            return true;
-        }
-
-        public void OnPluginLoad(IPlugin plugin, BasePluginPointer ptr)
-        {
-        }
-
-        public void OnPluginUnload(IPlugin plugin)
-        {
         }
 
     }
