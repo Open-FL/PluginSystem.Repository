@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -14,25 +15,23 @@ namespace PluginSystem.Repository
     public class RepositoryPlugin : APlugin<PluginSystemHost>, IPluginHost
     {
 
-        public string OriginFile
+        public static string GetOriginFilePath(PluginAssemblyPointer ptr)
         {
-            get
-            {
-                string file = Path.Combine(PluginPaths.GetPluginConfigDirectory(PluginAssemblyData), "origins.txt");
-                return file;
-            }
+           return Path.Combine(PluginPaths.GetPluginConfigDirectory(ptr), "origins.txt");
         }
 
-        public bool IsAllowedPlugin(IPlugin plugin)
+        public string OriginFile => GetOriginFilePath(PluginAssemblyData);
+
+        bool IPluginHost.IsAllowedPlugin(IPlugin plugin)
         {
             return true;
         }
 
-        public void OnPluginLoad(IPlugin plugin, BasePluginPointer ptr)
+        void IPluginHost.OnPluginLoad(IPlugin plugin, BasePluginPointer ptr)
         {
         }
 
-        public void OnPluginUnload(IPlugin plugin)
+        void IPluginHost.OnPluginUnload(IPlugin plugin)
         {
         }
 
@@ -75,7 +74,7 @@ namespace PluginSystem.Repository
         }
 
 
-        private List<string> ReadList(string uri)
+        private static List<string> ReadList(string uri)
         {
             if (File.Exists(uri))
             {
@@ -88,7 +87,7 @@ namespace PluginSystem.Repository
             }
         }
 
-        private List<BasePluginPointer> GetOriginData(string origin)
+        private static List<BasePluginPointer> GetOriginData(string origin)
         {
             return ReadList(origin).SelectMany(x => ReadList(x.Trim()).Select(y => new BasePluginPointer(y.Trim())))
                                    .ToList();
