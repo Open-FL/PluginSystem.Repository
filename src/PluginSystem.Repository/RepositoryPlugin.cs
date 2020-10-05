@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,11 +14,6 @@ namespace PluginSystem.Repository
     public class RepositoryPlugin : APlugin<PluginSystemHost>, IPluginHost
     {
 
-        public static string GetOriginFilePath(PluginAssemblyPointer ptr)
-        {
-           return Path.Combine(PluginPaths.GetPluginConfigDirectory(ptr), "origins.txt");
-        }
-
         public string OriginFile => GetOriginFilePath(PluginAssemblyData);
 
         bool IPluginHost.IsAllowedPlugin(IPlugin plugin)
@@ -33,6 +27,11 @@ namespace PluginSystem.Repository
 
         void IPluginHost.OnPluginUnload(IPlugin plugin)
         {
+        }
+
+        public static string GetOriginFilePath(PluginAssemblyPointer ptr)
+        {
+            return Path.Combine(PluginPaths.GetPluginConfigDirectory(ptr), "origins.txt");
         }
 
 
